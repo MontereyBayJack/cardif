@@ -22,11 +22,19 @@ dim(data)
 sum(complete.cases(data))/dim(data)[1]
 # identify numeric columns (convert others to factors)
 numericCols <- which(sapply(data, is.numeric))
-data[,-(numericCols)] <- lapply(data[,-(numericCols)] , factor)
+factorCols <- colnames(data[,-c(1,numericCols)])
+numericCols <- numericCols[-c(1,2)])
+data[,factorCols] <- lapply(data[,factorCols] , factor)
 # summary for numerical columns
 summary(data[,numericCols])
 # summary for factor columns
-summary(data[,-(numericCols)])
+summary(data[,factorCols])
 # fraction of ones in target
 sum(data$target)/dim(data)[1]
-
+# create missing data indicator features
+# is a blank factor missing data?
+tmp <- data[,factorCols]==""
+# number of blanks per column
+mfcols <- (colSums(tmp)>0)
+mfcols
+str(mfcols)
